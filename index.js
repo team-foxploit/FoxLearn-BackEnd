@@ -40,7 +40,7 @@ app.get('/api/users', (req, res) => {
     }else{
         res.json({
             "Welcome to FoxLearn API"
-        })
+        });
     }
 } );
 
