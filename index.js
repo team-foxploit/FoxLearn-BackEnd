@@ -54,9 +54,9 @@ app.put('/api/users/auth', (req, res) => {
     Auth.signUpUser(connection, req, res);
 } );
 
-// Route for getting all users
+// Route for getting specific user
 app.get('/api/users/:id', (req, res) => {
-    let que = `SELECT Username, Email FROM users.student WHERE Student_ID = ${req.params.id} `;
+    let que = `SELECT Username, Email FROM foxlearn.Student WHERE Std_ID = ${req.params.id} `;
     connection.query(que, (error, results, fields) => {
         if (error) {
             return console.error(error.message);
@@ -67,7 +67,7 @@ app.get('/api/users/:id', (req, res) => {
 
 // connection.end();
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);

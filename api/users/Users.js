@@ -25,7 +25,7 @@ module.exports.getAllTeachers = function (connection, req, res) {
 // Get all usernames from both teachers and students
 module.exports.getAllUsernames = function (connection, req, res) {
     // let que = `SELECT s.Email, s.Username, t.Email, t.Username FROM student s, teacher t `;
-    let que = `SELECT Email, Username FROM student`;
+    let que = `SELECT Email, Username FROM Student`;
     connection.query(que, (error, results, fields) => {
         if (error) {
             return console.error(error.message);
