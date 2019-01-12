@@ -38,9 +38,7 @@ app.get('/api/users', (req, res) => {
     }else if(req.body.type == 'allteachers'){
         Users.getAllTeachers(connection, req, res);
     }else{
-        res.json({
-            "Welcome to FoxLearn API"
-        });
+        res.json({"msg":"Welcome"});
     }
 } );
 
