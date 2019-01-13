@@ -54,9 +54,13 @@ app.post('/api/users/auth', (req, res) => {
     }
 } );
 
-// Route for add a new user
+// Route for sign up a new user
 app.put('/api/users/auth', (req, res) => {
-    Auth.signUpUser(connection, req, res);
+    if(req.body.table === 'Student'){
+        Auth.signUpStudent(connection, req, res);
+    }else if(req.body.table === 'Teacher'){
+        Auth.signUpTeacher(connection, req, res);
+    }
 } );
 
 // Route for getting specific user
