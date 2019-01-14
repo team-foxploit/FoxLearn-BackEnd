@@ -3,8 +3,8 @@ module.exports.getConfirmedUser = function (connection, req, res) {
     let que = `SELECT * FROM ${req.body.table} WHERE ${req.body.table}.Username = '${req.body.username}' OR ${req.body.table}.Email = '${req.body.username}'`;
     connection.query(que, (error, result, fields) => {
         if(error){
+            res.sendStatus(400);
             return console.error(error.message);
-            res.end();
         }
         res.json(result);
     } );
@@ -15,8 +15,8 @@ module.exports.updateUser = function (connection, req, res) {
     let que = `SELECT * FROM ${req.body.table} WHERE ${req.body.table}.Username = '${req.body.username}' OR ${req.body.table}.Email = '${req.body.username}'`;
     connection.query(que, (error, result, fields) => {
         if(error){
+            res.sendStatus(400);
             return console.error(error.message);
-            res.end();
         }
         res.json(result);
     } );

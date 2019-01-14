@@ -15,6 +15,7 @@ const connection = require('./database/config');
 // Schema Modules
 const Users = require('./api/users/Users');
 const Auth = require('./api/users/Auth');
+const QuizViews = require('./api/quizdatabase/QuizViews');
 
 // Route for getting all user details
 app.post('/api/users', (req, res) => {
@@ -68,11 +69,18 @@ app.get('/api/users/:id', (req, res) => {
     let que = `SELECT Username, Email FROM foxlearn.Student WHERE Std_ID = ${req.params.id} `;
     connection.query(que, (error, results, fields) => {
         if (error) {
+            res.sendStatus(400);
             return console.error(error.message);
         }
         res.json(results);
     });
 } );
+
+// Route for getting one question
+app.post('/api/quiz', (req, res) => {
+    QuizViews.getOneQuestion(connection, req, res);
+} );
+
 
 // connection.end();
 
