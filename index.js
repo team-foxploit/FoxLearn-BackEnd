@@ -83,7 +83,28 @@ app.get('/api/quiz', (req, res) => {
 
 // Route for getting complete quiz
 app.post('/api/quiz', (req, res) => {
-    QuizViews.getCompleteQuiz(connection, req, res);
+    let id_que = `SELECT Ques_ID FROM foxlearn.Question;`;
+    let ids = [];
+    connection.query(id_que, (error, results, fields) => {
+        if (error) {
+            return console.error(error.message);
+        }
+        results.forEach( (item) => {
+            ids.push(item.Ques_ID);
+        });
+        let i = 0;
+        let randomIDs = [];
+        while(i < 5){
+            var item = ids[Math.floor(Math.random()*ids.length)];
+            if (randomIDs.includes(item)) {
+                continue;
+            } else {
+                randomIDs.push(item);
+                i++;
+            }
+        }
+        QuizViews.getCompleteQuiz(connection, randomIDs, res);
+    });
 } );
 
 

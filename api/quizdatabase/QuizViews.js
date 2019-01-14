@@ -11,8 +11,8 @@ module.exports.getOneQuestion = function (connection, req, res) {
 };
 
 // Get complete quiz with answers and correct answers
-module.exports.getCompleteQuiz = function (connection, req, res) {
-    let que = `CALL get_ques('${req.body.Q_ID1}', '${req.body.Q_ID2}', '${req.body.Q_ID3}', '${req.body.Q_ID4}', '${req.body.Q_ID5}');`;
+module.exports.getCompleteQuiz = function (connection, ID, res) {
+    let que = `CALL get_ques('${ID[0]}', '${ID[1]}', '${ID[2]}', '${ID[3]}', '${ID[4]}');`;
     connection.query(que, (error, result, fields) => {
         if(error){
             res.sendStatus(400);
