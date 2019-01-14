@@ -51,3 +51,50 @@ DELIMITER $$
         SELECT Question.Question ,Question.Crct_Ans_Id, Question.Difficulty, Subject.Subject_Name, Answer.Ans_ID, Answer.Answer FROM Question,Answer,Subject WHERE Question_Id_p = Question.Ques_ID AND Question_Id_p = Answer.Ques_ID AND Subject.Subject_Name = Subject_Name_p AND Question.Difficulty = Difficulty_p;
         END$$
 DELIMITER ;
+														    
+														    
+														    
+														    
+//----------------------Insert Chemistry quiz marks-------------------------------------------------------------------------------
+DELIMITER $$
+      CREATE PROCEDURE insert_chemscore(IN Std_Id_p INT,IN Atmp_1_p DOUBLE,IN Atmp_2_p DOUBLE,IN Atmp_3_p DOUBLE,IN Atmp_4_p DOUBLE,IN Atmp_5_p DOUBLE)
+        BEGIN
+        INSERT INTO Chemistry_Score (Std_Id,Atmp_1,Atmp_2,Atmp_3,Atmp_4,Atmp_5) VALUES (Std_Id_p, Atmp_1_p,Atmp_2_p,Atmp_3_p,Atmp_4_p,Atmp_5_p);
+        END$$
+DELIMITER ;
+
+
+//----------------------Insert Physics quiz marks-------------------------------------------------------------------------------
+DELIMITER $$
+      CREATE PROCEDURE insert_physcore(IN Std_Id_p INT,IN Atmp_1_p DOUBLE,IN Atmp_2_p DOUBLE,IN Atmp_3_p DOUBLE,IN Atmp_4_p DOUBLE,IN Atmp_5_p DOUBLE)
+        BEGIN
+        INSERT INTO Physics_Score (Std_Id,Atmp_1,Atmp_2,Atmp_3,Atmp_4,Atmp_5) VALUES (Std_Id_p, Atmp_1_p,Atmp_2_p,Atmp_3_p,Atmp_4_p,Atmp_5_p);
+        END$$
+DELIMITER ;
+
+
+//----------------------Insert Geography quiz marks-------------------------------------------------------------------------------
+DELIMITER $$
+      CREATE PROCEDURE insert_geoscore(IN Std_Id_p INT,IN Atmp_1_p DOUBLE,IN Atmp_2_p DOUBLE,IN Atmp_3_p DOUBLE,IN Atmp_4_p DOUBLE,IN Atmp_5_p DOUBLE)
+        BEGIN
+        INSERT INTO Geography_Score (Std_Id,Atmp_1,Atmp_2,Atmp_3,Atmp_4,Atmp_5) VALUES (Std_Id_p, Atmp_1_p,Atmp_2_p,Atmp_3_p,Atmp_4_p,Atmp_5_p);
+        END$$
+DELIMITER ;
+
+
+
+//---------------------Retrieve 5 Questions , answers and the correct answers---------------------------------------------------
+
+DELIMITER $$
+      CREATE PROCEDURE get_ques(IN Question_Id_1 varchar(255),IN Question_Id_2 varchar(255),IN Question_Id_3 varchar(255),IN Question_Id_4 varchar(255),IN Question_Id_5 varchar(255))
+        BEGIN
+        SELECT Question.Question ,Question.Crct_Ans_Id,Answer.Ans_ID, Answer.Answer FROM Question,Answer WHERE Question_Id_1 = Question.Ques_ID AND Question_Id_1= Answer.Ques_ID;
+	SELECT Question.Question ,Question.Crct_Ans_Id,Answer.Ans_ID, Answer.Answer FROM Question,Answer WHERE Question_Id_2 = Question.Ques_ID AND Question_Id_2= Answer.Ques_ID;
+	SELECT Question.Question ,Question.Crct_Ans_Id,Answer.Ans_ID, Answer.Answer FROM Question,Answer WHERE Question_Id_3 = Question.Ques_ID AND Question_Id_3= Answer.Ques_ID;
+	SELECT Question.Question ,Question.Crct_Ans_Id,Answer.Ans_ID, Answer.Answer FROM Question,Answer WHERE Question_Id_4 = Question.Ques_ID AND Question_Id_4= Answer.Ques_ID;
+	SELECT Question.Question ,Question.Crct_Ans_Id,Answer.Ans_ID, Answer.Answer FROM Question,Answer WHERE Question_Id_5 = Question.Ques_ID AND Question_Id_5= Answer.Ques_ID;
+        END$$
+DELIMITER ;
+
+
+
