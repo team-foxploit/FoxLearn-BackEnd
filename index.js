@@ -77,8 +77,13 @@ app.get('/api/users/:id', (req, res) => {
 } );
 
 // Route for getting one question
-app.post('/api/quiz', (req, res) => {
+app.get('/api/quiz', (req, res) => {
     QuizViews.getOneQuestion(connection, req, res);
+} );
+
+// Route for getting complete quiz
+app.post('/api/quiz', (req, res) => {
+    QuizViews.getCompleteQuiz(connection, req, res);
 } );
 
 
