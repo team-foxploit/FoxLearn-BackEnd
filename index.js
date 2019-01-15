@@ -16,6 +16,7 @@ const connection = require('./database/config');
 const Users = require('./api/users/Users');
 const Auth = require('./api/users/Auth');
 const QuizViews = require('./api/quizdatabase/QuizViews');
+const SubmitQuiz = require('./api/quizdatabase/SubmitQuiz');
 
 // Route for getting all user details
 app.post('/api/users', (req, res) => {
@@ -107,6 +108,10 @@ app.post('/api/quiz', (req, res) => {
     });
 } );
 
+// Route for creating a quiz
+app.put('/api/quiz/create', (req, res) => {
+    SubmitQuiz.submitQuiz(connection, req, res);
+});
 
 // connection.end();
 
