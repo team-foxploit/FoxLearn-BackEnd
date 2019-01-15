@@ -37,7 +37,13 @@ DELIMITER ;
 --       INSERT INTO Answer ( Ans_ID, Answer,Ques_ID) VALUES ( 4, Answer_4_p, Question_Id_p);
 -- 	    END$$
 -- DELIMITER ;
-
+//-----------------------------Get all Q_IDs from DB for a given subject_ID---------------------------------------------------
+DELIMITER $$
+  CREATE PROCEDURE get_qID(IN subID INT)
+    BEGIN
+    SELECT Ques_ID FROM Question WHERE Sub_ID = subID;
+    END $$
+DELIMITER ;
 
 
 
