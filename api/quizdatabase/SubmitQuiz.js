@@ -7,7 +7,7 @@ module.exports.submitQuiz = function (connection, req, res) {
             res.sendStatus(400);
             return console.error(error.message);
         }
-        if(results.affectedRows == 1){
+        if(result.affectedRows == 1){
             res.json({status:"success"});
         }else{
             res.sendStatus(400);
