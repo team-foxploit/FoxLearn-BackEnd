@@ -30,14 +30,13 @@ CREATE TABLE Subject(
 );
 
 CREATE TABLE Answer (
-    Ans_ID INT NOT NULL AUTO_INCREMENT,
+    Ans_ID INT NOT NULL,
     Answer VARCHAR(45) NOT NULL,
-    Ques_ID VARCHAR(255) NOT NULL,
-    PRIMARY KEY (Ans_ID,Ques_ID)
+    Ques_ID INT NOT NULL
 );
 
 CREATE TABLE Question(
-    Ques_ID VARCHAR(255) NOT NULL,
+    Ques_ID INTEGER NOT NULL AUTO_INCREMENT,
     Crct_Ans_Id INT NOT NULL,
     Question VARCHAR(500) NOT NULL,
     Sub_ID INT NOT NULL,
@@ -45,6 +44,8 @@ CREATE TABLE Question(
     Difficulty VARCHAR(10) NOT NULL,
     PRIMARY KEY (Ques_ID)
 );
+
+ALTER TABLE Question AUTO_INCREMENT = 4000;
 
 CREATE TABLE ChemistryScore (
     Std_ID INT NOT NULL,
@@ -79,12 +80,12 @@ CREATE TABLE PhysicsScore (
 );
 
 
-ALTER TABLE PhysicsScore ADD FOREIGN KEY (Std_ID) REFERENCES Student(Std_ID) ON UPDATE CASCADE ON DELETE CASCADE;  
-ALTER TABLE ChemistryScore ADD FOREIGN KEY (Std_ID) REFERENCES Student(Std_ID) ON UPDATE CASCADE ON DELETE CASCADE;  
-ALTER TABLE GeographyScore ADD FOREIGN KEY (Std_ID) REFERENCES Student(Std_ID) ON UPDATE CASCADE ON DELETE CASCADE;  
-ALTER TABLE Question ADD FOREIGN KEY (Sub_ID) REFERENCES Subject(Sub_ID) ON UPDATE CASCADE ON DELETE CASCADE;  
-ALTER TABLE Question ADD FOREIGN KEY (Tch_ID) REFERENCES Teacher(Tch_ID) ON UPDATE CASCADE ON DELETE CASCADE; 
-ALTER TABLE Question ADD FOREIGN KEY (Crct_Ans_Id) REFERENCES Answer(Ans_ID) ON UPDATE CASCADE ON DELETE CASCADE; 
+ALTER TABLE PhysicsScore ADD FOREIGN KEY (Std_ID) REFERENCES Student(Std_ID) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ChemistryScore ADD FOREIGN KEY (Std_ID) REFERENCES Student(Std_ID) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE GeographyScore ADD FOREIGN KEY (Std_ID) REFERENCES Student(Std_ID) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE Question ADD FOREIGN KEY (Sub_ID) REFERENCES Subject(Sub_ID) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE Question ADD FOREIGN KEY (Tch_ID) REFERENCES Teacher(Tch_ID) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE Question ADD FOREIGN KEY (Crct_Ans_Id) REFERENCES Answer(Ans_ID) ON UPDATE CASCADE ON DELETE CASCADE;
 
 INSERT INTO Student (Std_ID,First_Name, Last_Name, Password,Email,Username) VALUES (1001, 'Amila', 'Perera', '2456lun', 'amilap7@gmail.com','amiiila');
 INSERT INTO Student (Std_ID, First_Name, Last_Name,Password,Email,Username) VALUES (1002, 'Sandaruwan', 'Jayawardana', '67hyyj', 'sanda35@gmail.com','sanda');
@@ -110,66 +111,66 @@ INSERT INTO Teacher(Tch_ID, First_Name, Last_Name, Password, Email,Username) VAL
 
 
 
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Oxygen', '5001');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Nitrogen', '5001');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Argon', '5001');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Carbon Dioxide', '5001');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Airflow', '5002');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Moisture', '5002');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Storm', '5002');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Thunder', '5002');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Energy pathways', '5003');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Hydroelectricity', '5003');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID)VALUES (3, 'Biomass', '5003');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Energy conservation', '5003');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Acid precipitation', '5004');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Acid rain', '5004');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Clear rain', '5004');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Freezing rain', '5004');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Renewable energy', '5005');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Thermal adaption', '5005');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Hydroelectric power', '5005');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Biofuels', '5005');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Diesel', '5006');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID)VALUES (2, 'Petrol', '5006');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Paraffin', '5006');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'All of the above', '5006');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Strong acids', '5007');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Strong alkalis', '5007');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Weak acids', '5007');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Weak bases', '5007');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Corrosive', '5008');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Turn litmus from blue to red', '5008');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Turn litmus from red to blue', '5008');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Non-metal oxides', '5008');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Salt and water', '5009');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Salt and hydrogen gas', '5009');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Salt and hydrogen oxides', '5009');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Salt and alkali', '5009');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Litmus indicator', '5010');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Universal indicator', '5010');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Methyl orange indicator', '5010');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'All of these', '5010');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Thermal energy', '5011');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Mechanical energy', '5011');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Magnetic energy', '5011');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Electric energy', '5011');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Viscous', '5012');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Non-Viscous', '5012');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Incompressible', '5012');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Both a and b', '5012');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Ohms', '5013');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Watts', '5013');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Pascal', '5013');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Joules', '5013');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Rays', '5014');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Waves', '5014');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Energy', '5014');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Light', '5014');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Span', '5015');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Period', '5015');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Life', '5015');
-INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Duration', '5015');
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Oxygen', 4000);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Nitrogen', 4000);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Argon', 4000);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Carbon Dioxide', 4000);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Airflow', 4001);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Moisture', 4001);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Storm', 4001);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Thunder', 4001);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Energy pathways', 4002);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Hydroelectricity', 4002);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID)VALUES (3, 'Biomass', 4002);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Energy conservation', 4002);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Acid precipitation', 4003);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Acid rain', 4003);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Clear rain', 4003);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Freezing rain', 4003);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Renewable energy', 4004);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Thermal adaption', 4004);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Hydroelectric power', 4004);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Biofuels', 4004);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Diesel', 4005);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID)VALUES (2, 'Petrol', 4005);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Paraffin', 4005);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'All of the above', 4005);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Strong acids', 4006);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Strong alkalis', 4006);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Weak acids', 4006);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Weak bases', 4006);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Corrosive', 4007);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Turn litmus from blue to red', 4007);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Turn litmus from red to blue', 4007);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Non-metal oxides', 4007);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Salt and water', 4008);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Salt and hydrogen gas', 4008);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Salt and hydrogen oxides', 4008);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Salt and alkali', 4008);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Litmus indicator', 4009);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Universal indicator', 4009);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Methyl orange indicator', 4009);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'All of these', 4009);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Thermal energy', 4010);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Mechanical energy', 4010);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Magnetic energy', 4010);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Electric energy', 4010);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Viscous', 4011);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Non-Viscous', 4011);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Incompressible', 4011);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Both a and b', 4011);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Ohms', 4012);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Watts', 4012);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Pascal', 4012);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Joules', 4012);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Rays', 4013);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Waves', 4013);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Energy', 4013);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Light', 4013);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (1, 'Span', 4014);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (2, 'Period', 4014);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (3, 'Life', 4014);
+INSERT INTO Answer (Ans_ID, Answer, Ques_ID) VALUES (4, 'Duration', 4014);
 
 
 
@@ -177,20 +178,18 @@ INSERT INTO Subject (Sub_ID, Subject_Name) VALUES (3001, 'Geography');
 INSERT INTO Subject (Sub_ID, Subject_Name) VALUES (3002, 'Chemistry');
 INSERT INTO Subject (Sub_ID, Subject_Name) VALUES (3003, 'Physics');
 
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5001, 2, 'The most abundant gas in the atmosphere is,', 3001, 2001, 'Easy');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5002, 4, 'Sudden expansion of air in path of electrical discharge and as a result flash of lightning cause know as', 3001, 2002, 'Medium');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5003, 3, 'Energy that we get from organic matter and burning wood is known as', 3001, 2001, 'Easy');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5004, 2, 'Form of precipitation or rain that is unusually acidic is known as', 3001, 2002, 'Easy');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5005, 4, 'Fuel produced by biological process is known as', 3001, 2001, 'Hard');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5006, 4, 'Crude oil can be fractionally distilled to produce', 3002, 2003, 'Hard');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5007, 1, 'In Universal indicators, red color shows', 3002, 2001, 'Medium');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5008, 3, 'Bases (OH-) are', 3002, 2003, 'Medium');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5009, 1, 'Acids (H+) reacts with metal hydroxides (-OH-) to from', 3002, 2003, 'Easy');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5010, 4, 'Acid shows red color with', 3002, 2001, 'easy');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5011, 1, 'Ohmic devices are devices that consequently', 3003, 2002, 'Hard');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5012, 2, 'Cross product of two same vectors is equal to', 3003, 2001, 'Medium');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5013, 1, 'As wave travels, intensity', 3003, 2003, 'Easy');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5014, 2, 'Sound passes from one place to another in form of', 3003, 2002, 'Easy');
-INSERT INTO Question(Ques_ID, Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (5015, 4, 'Decomposing vectors into mutually perpendicular components is called', 3003, 2001, 'Medium');
-
-
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (2, 'The most abundant gas in the atmosphere is,', 3001, 2001, 'Easy');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (4, 'Sudden expansion of air in path of electrical discharge and as a result flash of lightning cause know as', 3001, 2002, 'Medium');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (3, 'Energy that we get from organic matter and burning wood is known as', 3001, 2001, 'Easy');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (2, 'Form of precipitation or rain that is unusually acidic is known as', 3001, 2002, 'Easy');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (4, 'Fuel produced by biological process is known as', 3001, 2001, 'Hard');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (4, 'Crude oil can be fractionally distilled to produce', 3002, 2003, 'Hard');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (1, 'In Universal indicators, red color shows', 3002, 2001, 'Medium');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (3, 'Bases (OH-) are', 3002, 2003, 'Medium');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (1, 'Acids (H+) reacts with metal hydroxides (-OH-) to from', 3002, 2003, 'Easy');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (4, 'Acid shows red color with', 3002, 2001, 'easy');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (1, 'Ohmic devices are devices that consequently', 3003, 2002, 'Hard');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (2, 'Cross product of two same vectors is equal to', 3003, 2001, 'Medium');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (1, 'As wave travels, intensity', 3003, 2003, 'Easy');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (2, 'Sound passes from one place to another in form of', 3003, 2002, 'Easy');
+INSERT INTO Question(Crct_Ans_Id, Question, Sub_ID, Tch_ID, Difficulty) VALUES (4, 'Decomposing vectors into mutually perpendicular components is called', 3003, 2001, 'Medium');
