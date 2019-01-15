@@ -103,7 +103,7 @@ DELIMITER $$
 DELIMITER ;
 
 //------------------------------Insert Question into Question table--------------------------------------------
-DELIMITER //
+DELIMITER $$
 CREATE PROCEDURE submitQuiz(
   IN correctAnsID INT,
   IN question VARCHAR(500),
@@ -136,6 +136,6 @@ CREATE PROCEDURE submitQuiz(
       SET  x = x + 1;
     END WHILE;
 
-  END //
+  END $$
 
 DELIMITER ;
