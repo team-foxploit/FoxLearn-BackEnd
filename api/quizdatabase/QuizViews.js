@@ -21,3 +21,15 @@ module.exports.getCompleteQuiz = function (connection, ID, res) {
         res.json(result);
     } );
 };
+
+// Get subject filtered IDs
+module.exports.getSubjectIDs = function (connection, req, res) {
+    let que = `CALL get_qID('${req.body.id}');`;
+    connection.query(que, (error, result, fields) => {
+        if(error){
+            res.sendStatus(400);
+            return console.error(error.message);
+        }
+        res.json(result);
+    } );
+};

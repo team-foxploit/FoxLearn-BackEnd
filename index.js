@@ -113,6 +113,11 @@ app.put('/api/quiz/create', (req, res) => {
     SubmitQuiz.submitQuiz(connection, req, res);
 });
 
+// Route for selecting sub IDs
+app.get('/api/quiz/IDs', (req, res) => {
+    QuizViews.getSubjectIDs(connection, req, res);
+});
+
 // connection.end();
 
 const port = process.env.PORT || 5000;
