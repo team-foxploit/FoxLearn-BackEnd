@@ -4,7 +4,7 @@
   "description": "Backbone API for FoxLearn app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "nodemon index.js"
   },
   "repository": {
@@ -22,6 +22,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "mocha": "^6.0.2",
     "mongoose": "^5.4.17",
     "mysql": "^2.16.0",
     "nodemon": "^1.18.9",
