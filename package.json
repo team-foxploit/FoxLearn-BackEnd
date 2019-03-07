@@ -22,6 +22,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "mongoose": "^5.4.17",
     "mysql": "^2.16.0",
     "nodemon": "^1.18.9",
     "pg": "^7.8.1"
