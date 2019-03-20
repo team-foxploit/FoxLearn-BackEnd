@@ -117,18 +117,36 @@ router.put('/', (req, res, next) => {
 
 
 // Update specified user
-router.patch('/:productID', (req, res, next) => {
-    const id = req.params.productID;
-    const updatedProduct = {};
-    console.log(req.body);
-    for(const item of req.body){
-        updatedProduct[item.propName] = item.value;
+router.patch('/:userID', (req, res, next) => {
+    const id = req.params.userID;
+    const updatedUser = {};
+    for(const ops of req.body){
+        updatedUser[ops.propName] = ops.value;
     }
-    User.update({_id: id}, {$set: updatedProduct})
+    User.update({_id: id}, {$set: updatedUser})
     .exec()
     .then((result) => {
-        console.log(result);
-        res.status(200).json(result);     
+        if(result.nModified === 1){
+            // Update success
+            res.status(200).json({
+                message: `User details updated successfully.`,
+                result: result,
+                request: {
+                    type: 'PATCH',
+                    url: 'localhost:5000/api/users/'+id
+                }
+            });
+        }else{
+            // Update fail
+            res.status(200).json({
+                message: `User update already happened!`,
+                result: result,
+                request: {
+                    type: 'PATCH',
+                    url: 'localhost:5000/api/users/'+id
+                }
+            });     
+        }
     })
     .catch((error) => {
         console.log(error);
@@ -137,8 +155,8 @@ router.patch('/:productID', (req, res, next) => {
 });
 
 // Delete specific user
-router.delete('/:productID', (req, res, next) => {
-    const id = req.params.productID;
+router.delete('/:userID', (req, res, next) => {
+    const id = req.params.userID;
     User.deleteMany({_id: id})
     .exec()
     .then((result) =>{
