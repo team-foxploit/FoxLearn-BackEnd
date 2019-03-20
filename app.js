@@ -4,11 +4,14 @@ const morgan = require('morgan');
 const bodyparser = require('body-parser');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
+mongoose.set('useCreateIndex', true);
 
 // Sub-Routes
 // const productRoutes = require('./api/routes/products');
 // const orderRoutes = require('./api/routes/orders');
-const userRoutes = require('./api/routes/UserRoutes');
+// const userRoutes = require('./api/routes/UserRoutes');
+const userRoutes = require('./api/routes/user');
+
 
 // Connection to the mongodb database
 mongoose.connect("mongodb://heroku_65j68qcv:"+process.env.MONGODB_PW+"@ds161345.mlab.com:61345/heroku_65j68qcv", {
@@ -17,7 +20,7 @@ mongoose.connect("mongodb://heroku_65j68qcv:"+process.env.MONGODB_PW+"@ds161345.
   (err, client) => {
     if (err) {
       console.log(err);
-      console.log(client);      
+      console.log(client);
     }else{
         console.log('connected to mongo!!!');
     }
@@ -47,7 +50,8 @@ app.use((req, res, next) => {
 // Route handlers
 // app.use('/products', productRoutes);
 // app.use('/orders', orderRoutes);
-app.use('/api/users', userRoutes);
+// app.use('/api/users', userRoutes);
+app.use('/api/', userRoutes)
 
 // Error handling middleware for bad requsets
 app.use((req, res, next) => {
