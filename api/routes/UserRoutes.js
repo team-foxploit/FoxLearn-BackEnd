@@ -40,7 +40,6 @@ router.get('/:userID', (req, res, next) => {
     User.findById(id)
     .exec()
     .then((result) => {
-        console.log(result);
         if (result) {
             res.status(200).json({
                 message: `User found.`,
@@ -90,7 +89,6 @@ router.put('/', (req, res, next) => {
     
     user.save()
     .then((result) => {
-        console.log(result);
         res.status(201).json({
             message: `User created successfully.`,
             createdUser: {
@@ -160,8 +158,27 @@ router.delete('/:userID', (req, res, next) => {
     User.deleteMany({_id: id})
     .exec()
     .then((result) =>{
-        console.log(result.n);
-        res.status(200).json(result);
+        if(result.deletedCount === 1){
+            // Delete success
+            res.status(200).json({
+                message: `User has been deleted successfully.`,
+                result: result,
+                request: {
+                    type: 'DELETE',
+                    url: 'localhost:5000/api/users/'+id
+                }
+            });
+        }else{
+            // Delete fail
+            res.status(200).json({
+                message: `User delete already happened!`,
+                result: result,
+                request: {
+                    type: 'DELETE',
+                    url: 'localhost:5000/api/users/'+id
+                }
+            });     
+        }
     })
     .catch((error) =>{
         console.log(error);
