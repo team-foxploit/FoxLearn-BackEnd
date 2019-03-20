@@ -34,6 +34,6 @@ const quizSchema = new Schema({
     }
 });
 
-const Quiz = mongoose.model('users', quizSchema);
+const Quiz = mongoose.model('quizzes', quizSchema);
 
 module.exports = Quiz;
