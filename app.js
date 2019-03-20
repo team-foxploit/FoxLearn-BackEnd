@@ -8,7 +8,7 @@ mongoose.Promise = global.Promise;
 // Sub-Routes
 // const productRoutes = require('./api/routes/products');
 // const orderRoutes = require('./api/routes/orders');
-const userRoutes = require('./api/routes/users');
+const userRoutes = require('./api/routes/UserRoutes');
 
 // Connection to the mongodb database
 mongoose.connect("mongodb://heroku_65j68qcv:"+process.env.MONGODB_PW+"@ds161345.mlab.com:61345/heroku_65j68qcv", {
