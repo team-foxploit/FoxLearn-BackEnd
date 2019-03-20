@@ -1,7 +1,7 @@
 {
   "name": "foxlearn-backend",
-  "version": "1.0.0",
-  "description": "Backbone API for FoxLearn app",
+  "version": "2.0.0",
+  "description": "REST API for FoxLearn app",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
@@ -24,7 +24,7 @@
     "express-session": "^1.15.6",
     "mocha": "^6.0.2",
     "mongoose": "^5.4.17",
-    "mysql": "^2.16.0",
+    "morgan": "^1.9.1",
     "nodemon": "^1.18.9",
     "pg": "^7.8.1"
   }
