@@ -1,5 +1,6 @@
 {
     "env": {
-        "MONGODB_PW": "8aruocin3bmr0aps9sn5ijm7n6"
+        "MONGODB_PW": "8aruocin3bmr0aps9sn5ijm7n6",
+        "JWT_KEY": "foxlearn_key"
     }
 }
