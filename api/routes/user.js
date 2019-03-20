@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 
@@ -37,8 +38,18 @@ router.post("/login", (req, res, next) => {
             if(result){
                 // result == true
                 // User found
+                const token = jwt.sign({
+                    email: user[0].email,
+                    id: user[0]._id
+                  },
+                  process.env.JWT_KEY,
+                  {
+                      expiresIn: "1h"
+                  }
+                );
                 return res.status(200).json({
                     message: "Auth succesfull.",
+                    token: token,
                     request: {
                         type: 'POST',
                         url: 'localhost:5000/api/login'
