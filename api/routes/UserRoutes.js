@@ -5,7 +5,7 @@ const User = require('../models/User');
 
 // Get all users
 router.get('/', (req, res, next) => {
-    User.find().limit(100)
+    User.find()
     .select('_id firstName lastName userName email userType')
     .exec()
     .then((result) =>{
@@ -13,7 +13,37 @@ router.get('/', (req, res, next) => {
             count: result.length,
             users: result,
             request: {
-                type: 'PUT',
+                type: 'GET',
+                url: 'localhost:5000/api/users'
+            }
+        };
+        if (result) {
+            res.status(200).json(response);
+        } else {
+            res.status(404).json({
+                message: 'No valid entry found for the provided ID.'
+            });
+        }   
+    })
+    .catch((error) => {
+        console.log(error);
+        res.status(500).json({
+            error: error
+        });
+    });
+});
+
+// Get all usernames
+router.get('/all', (req, res, next) => {
+    User.find()
+    .select('_id userName email')
+    .exec()
+    .then((result) =>{
+        const response = {
+            count: result.length,
+            users: result,
+            request: {
+                type: 'VIEW',
                 url: 'localhost:5000/api/users'
             }
         };
