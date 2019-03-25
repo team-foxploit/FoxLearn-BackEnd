@@ -9,9 +9,9 @@ mongoose.set('useCreateIndex', true);
 // Sub-Routes
 // const productRoutes = require('./api/routes/products');
 // const orderRoutes = require('./api/routes/orders');
-// const userRoutes = require('./api/routes/UserRoutes');
-const userRoutes = require('./api/routes/user');
-const quizRoutes = require('./api/routes/quiz');
+const userRoutes = require('./api/routes/UserRoutes');
+const loginRoutes = require('./api/routes/LoginRoutes');
+const quizRoutes = require('./api/routes/QuizRoutes');
 
 // Connection to the mongodb database
 mongoose.connect("mongodb://heroku_65j68qcv:"+process.env.MONGODB_PW+"@ds161345.mlab.com:61345/heroku_65j68qcv", {
@@ -51,7 +51,8 @@ app.use((req, res, next) => {
 // app.use('/products', productRoutes);
 // app.use('/orders', orderRoutes);
 // app.use('/api/users', userRoutes);
-app.use('/api/', userRoutes);
+app.use('/api/', loginRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/quiz', quizRoutes);
 
 // Error handling middleware for bad requsets
