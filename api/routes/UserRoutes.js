@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const User = require('../models/User');
 
+
 // Get all users
 router.get('/', (req, res, next) => {
     User.find()
@@ -33,6 +34,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
+
 // Get all usernames
 router.get('/all', (req, res, next) => {
     User.find()
@@ -62,6 +64,7 @@ router.get('/all', (req, res, next) => {
         });
     });
 });
+
 
 // Get a specified user
 router.get('/:userID', (req, res, next) => {
@@ -106,42 +109,6 @@ router.get('/:userID', (req, res, next) => {
 
 });
 
-// Add a new user
-router.put('/', (req, res, next) => {
-    const user = new User({
-        _id: new mongoose.Types.ObjectId(),
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        userName: req.body.userName,
-        email: req.body.email,
-        userType: req.body.userType
-    });
-    
-    user.save()
-    .then((result) => {
-        res.status(201).json({
-            message: `User created successfully.`,
-            createdUser: {
-                _id: result._id,
-                firstName: result.firstName,
-                lastName: result.lastName,
-                userName: result.userName,
-                email: result.email,
-                userType: result.userType
-            },
-            request: {
-                type: 'PUT',
-                url: 'localhost:5000/api/users/'+result._id
-            }
-        });
-    })
-    .catch((error) => {
-        console.log(error);
-        res.status(500).json({
-            error: error
-        });
-    });
-});
 
 
 // Update specified user

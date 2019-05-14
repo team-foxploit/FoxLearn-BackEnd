@@ -27,10 +27,10 @@ router.post("/login", (req, res, next) => {
         if(user.length === 0){
             // User not found
             return res.status(401).json({
-                message: "Auth failed.",
+                message: "Invalid credentials!",
                 request: {
                     type: 'POST',
-                    url: 'localhost:5000/api/login'
+                    url: 'localhost:5000/api/auth/login'
                 }
             });
         }
@@ -41,7 +41,7 @@ router.post("/login", (req, res, next) => {
                     error: err,
                     request: {
                         type: 'POST',
-                        url: 'localhost:5000/api/login'
+                        url: 'localhost:5000/api/auth/login'
                     }
                 });
             }
@@ -71,15 +71,15 @@ router.post("/login", (req, res, next) => {
                     user: matchedUser,
                     request: {
                         type: 'POST',
-                        url: 'localhost:5000/api/login'
+                        url: 'localhost:5000/api/auth/login'
                     }
                 });
             }else{
                 return res.status(401).json({
-                    message: "Auth failed.",
+                    message: "Invalid credentials!",
                     request: {
                         type: 'POST',
-                        url: 'localhost:5000/api/login'
+                        url: 'localhost:5000/api/auth/login'
                     }
                 });
             }
@@ -92,10 +92,69 @@ router.post("/login", (req, res, next) => {
             error: error,
             request: {
                 type: 'POST',
-                url: 'localhost:5000/api/login'
+                url: 'localhost:5000/api/auth/login'
             }
         });
     });
+});
+
+
+// User load
+router.get("/user", (req, res, next) => {
+    const token = req.headers.authorization.split(" ")[1];
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_KEY);
+        User.findById(decoded.id).exec()
+        .then((matchedUser) => {
+            const user = {
+                _id: matchedUser._id,
+                firstName: matchedUser.firstName,
+                lastName: matchedUser.lastName,
+                userName: matchedUser.userName,
+                email: matchedUser.email,
+                userType: matchedUser.userType
+            }
+            const newToken = jwt.sign({
+                email: user.email,
+                id: user._id
+              },
+              process.env.JWT_KEY,
+              {
+                  expiresIn: "1h"
+              }
+            );
+            return res.status(200).json({
+                message: "User load succesfull.",
+                token: newToken,
+                user: user,
+                request: {
+                    type: 'GET',
+                    url: 'localhost:5000/api/auth/user'
+                }
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(401).json({
+                message: "User load failed.",
+                error: err,
+                request: {
+                    type: 'GET',
+                    url: 'localhost:5000/api/auth/user'
+                }
+            });
+        })
+    } catch(err) {
+        console.log(err);
+        res.status(401).json({
+            message: "User load failed.",
+            error: err,
+            request: {
+                type: 'GET',
+                url: 'localhost:5000/api/auth/user'
+            }
+        });
+    }
 });
 
 
@@ -109,20 +168,20 @@ router.post("/signup", (req, res, next) => {
                 message: "User exist with the given email address!",
                 request: {
                     type: 'POST',
-                    url: 'localhost:5000/api/signup'
+                    url: 'localhost:5000/api/auth/signup'
                 }
             });
         } else {
             bcrypt.genSalt(saltRounds, (err, salt) => {
                 bcrypt.hash(req.body.password, salt, (err, hash) => {
-                    // Store hash in your password DB.
+                    // Store hashed password in the DB.
                     if (err) {
                         res.status(500).json({
                             message: "Password hashing failed",
                             error: err,
                             request: {
                                 type: 'POST',
-                                url: 'localhost:5000/api/signup'
+                                url: 'localhost:5000/api/auth/signup'
                             }
                         });
                     } else {
@@ -136,44 +195,44 @@ router.post("/signup", (req, res, next) => {
                             userType: req.body.userType
                         });
                         user.save()
-                            .then((result) => {
-                                const token = jwt.sign({
+                        .then((result) => {
+                            const token = jwt.sign({
+                                email: result.email,
+                                id: result._id
+                                },
+                                process.env.JWT_KEY,
+                                {
+                                    expiresIn: "1h"
+                                }
+                            );
+                            res.status(201).json({
+                                message: `User created successfully.`,
+                                token: token,
+                                user: {
+                                    _id: result._id,
+                                    firstName: result.firstName,
+                                    lastName: result.lastName,
+                                    userName: result.userName,
                                     email: result.email,
-                                    id: result._id
-                                  },
-                                  process.env.JWT_KEY,
-                                  {
-                                      expiresIn: "1h"
-                                  }
-                                );
-                                res.status(201).json({
-                                    message: `User created successfully.`,
-                                    token: token,
-                                    user: {
-                                        _id: result._id,
-                                        firstName: result.firstName,
-                                        lastName: result.lastName,
-                                        userName: result.userName,
-                                        email: result.email,
-                                        userType: result.userType
-                                    },
-                                    request: {
-                                        type: 'PUT',
-                                        url: 'localhost:5000/api/signup'
-                                    }
-                                });
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                                res.status(500).json({
-                                    message: "User create failed.",
-                                    error: error,
-                                    request: {
-                                        type: 'POST',
-                                        url: 'localhost:5000/api/signup'
-                                    }
-                                });
+                                    userType: result.userType
+                                },
+                                request: {
+                                    type: 'PUT',
+                                    url: 'localhost:5000/api/auth/signup'
+                                }
                             });
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            res.status(500).json({
+                                message: "User create failed.",
+                                error: error,
+                                request: {
+                                    type: 'POST',
+                                    url: 'localhost:5000/api/auth/signup'
+                                }
+                            });
+                        });
                     }
                 });
             });
@@ -186,11 +245,12 @@ router.post("/signup", (req, res, next) => {
             error: error,
             request: {
                 type: 'POST',
-                url: 'localhost:5000/api/signup'
+                url: 'localhost:5000/api/auth/signup'
             }
         });
     });
 });
+
 
 // Delete specific user
 router.delete('/users/:userID', (req, res, next) => {
@@ -205,7 +265,7 @@ router.delete('/users/:userID', (req, res, next) => {
                 result: result,
                 request: {
                     type: 'DELETE',
-                    url: 'localhost:5000/api/users/'+id
+                    url: 'localhost:5000/api/auth/users/'+id
                 }
             });
         }else{
@@ -215,7 +275,7 @@ router.delete('/users/:userID', (req, res, next) => {
                 result: result,
                 request: {
                     type: 'DELETE',
-                    url: 'localhost:5000/api/users/'+id
+                    url: 'localhost:5000/api/auth/users/'+id
                 }
             });     
         }
