@@ -48,6 +48,14 @@ router.post("/login", (req, res, next) => {
             if(result){
                 // result == true
                 // User found
+                const matchedUser = {
+                    _id: user[0]._id,
+                    firstName: user[0].firstName,
+                    lastName: user[0].lastName,
+                    userName: user[0].userName,
+                    email: user[0].email,
+                    userType: user[0].userType
+                }
                 const token = jwt.sign({
                     email: user[0].email,
                     id: user[0]._id
@@ -60,6 +68,7 @@ router.post("/login", (req, res, next) => {
                 return res.status(200).json({
                     message: "Auth succesfull.",
                     token: token,
+                    user: matchedUser,
                     request: {
                         type: 'POST',
                         url: 'localhost:5000/api/login'
@@ -90,12 +99,11 @@ router.post("/login", (req, res, next) => {
 });
 
 
-// User create with redundancy check!!!
+// User register with redundancy check!!!
 router.post("/signup", (req, res, next) => {
     User.find({ email: req.body.email })
     .exec()
     .then((user) => {
-        console.log(user);        
         if (user.length !== 0) {
             return res.status(409).json({
                 message: "User exist with the given email address!",
@@ -127,18 +135,26 @@ router.post("/signup", (req, res, next) => {
                             password: hash,
                             userType: req.body.userType
                         });
-        
                         user.save()
                             .then((result) => {
+                                const token = jwt.sign({
+                                    email: result.email,
+                                    id: result._id
+                                  },
+                                  process.env.JWT_KEY,
+                                  {
+                                      expiresIn: "1h"
+                                  }
+                                );
                                 res.status(201).json({
                                     message: `User created successfully.`,
-                                    createdUser: {
+                                    token: token,
+                                    user: {
                                         _id: result._id,
                                         firstName: result.firstName,
                                         lastName: result.lastName,
                                         userName: result.userName,
                                         email: result.email,
-                                        password: result.password,
                                         userType: result.userType
                                     },
                                     request: {
