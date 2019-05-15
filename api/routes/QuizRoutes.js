@@ -55,7 +55,7 @@ router.get('/', checkAuth, (req, res, next) => {
         console.log(result);
         res.status(200).json({
             message: `Quiz retrieve successful.`,
-            quiz: result[0],
+            quiz: result,
             request: {
                 type: 'GET',
                 url: 'localhost:5000/api/quiz'
@@ -77,7 +77,41 @@ router.get('/', checkAuth, (req, res, next) => {
 
 // Get a specified Quiz
 router.get('/:quizID', checkAuth, (req, res, next) => {
-
+    const quizID = req.params.quizID;
+    Quiz.findById(quizID, '-__v').exec()
+    .then((result) => {
+        console.log(result);
+        if (result) {
+            res.status(200).json({
+                message: `Quiz retrieve successful.`,
+                quiz: result,
+                request: {
+                    type: 'GET',
+                    url: 'localhost:5000/api/quiz/'+quizID
+                }
+            });
+        } else {
+            res.status(500).json({
+                message: "Quiz retrieve failed.",
+                error: "Invalid id",
+                request: {
+                    type: 'GET',
+                    url: 'localhost:5000/api/quiz/'+quizID
+                }
+            });
+        }
+    })
+    .catch((error) => {
+        console.log(error);
+        res.status(500).json({
+            message: "Quiz retrieve failed.",
+            error: error,
+            request: {
+                type: 'GET',
+                url: 'localhost:5000/api/quiz/'+quizID
+            }
+        });
+    });
 });
 
 
