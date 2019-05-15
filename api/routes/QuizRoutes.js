@@ -52,7 +52,6 @@ router.post('/', checkAuth, (req, res, next) => {
 router.get('/', checkAuth, (req, res, next) => {
     Quiz.find({}, '-__v').exec()
     .then((result) => {
-        console.log(result);
         res.status(200).json({
             message: `Quiz retrieve successful.`,
             quiz: result,
@@ -80,7 +79,6 @@ router.get('/:quizID', checkAuth, (req, res, next) => {
     const quizID = req.params.quizID;
     Quiz.findById(quizID, '-__v').exec()
     .then((result) => {
-        console.log(result);
         if (result) {
             res.status(200).json({
                 message: `Quiz retrieve successful.`,
