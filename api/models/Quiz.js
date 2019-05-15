@@ -2,26 +2,39 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-// Schema model
-const quizSchema = new Schema({
-    subject: {
-        type: String,
-        required: true
-    },
+// QuestionSetSchema model
+const questionSchema = new Schema({
     question: {
         type: String,
         required: true
     },
     answers: {
-        type: Object,
-        required: true
-    },
-    difficulty: {
-        type: String,
+        type: [String],
         required: true
     },
     correctAnswer: {
         type: Number,
+        required: true
+    }
+});
+
+
+// QuizSchema model
+const quizSchema = new Schema({
+    topic: {
+        type: String,
+        required: true
+    },
+    tags: {
+        type: [String],
+        required: true
+    },
+    questionSet: {
+        type: [questionSchema],
+        required: true
+    },
+    difficulty: {
+        type: String,
         required: true
     },
     author: {
