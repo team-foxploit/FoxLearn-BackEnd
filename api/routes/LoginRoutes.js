@@ -11,17 +11,10 @@ const saltRounds = 10;
 
 // User login
 router.post("/login", (req, res, next) => {
-    let user = null;
-    if(req.body.username){
-        user = {
-            userName: req.body.username
-        }
-    }else{
-        user = {
-            email: req.body.email
-        }
+    let query = {
+        $or: [ { userName: req.body.username }, { email: req.body.username } ]
     }
-    User.find(user)
+    User.find( query)
     .exec()
     .then((user) => {
         if(user.length === 0){
