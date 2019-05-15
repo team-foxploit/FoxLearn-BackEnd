@@ -1,124 +1,95 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const Answer = require('../models/Answer');
+const Quiz = require('../models/Quiz');
 const checkAuth = require('../middleware/check-auth');
 
-// Get all answers
-router.get('/answers', checkAuth, (req, res, next) => {
-    Answer.find().limit(100)
-    .select("_id subject author createdDate")
-    .exec()
-    .then((result) =>{
-        const response = {
-            count: result.length,
-            answers: result,
-            request: {
-                type: 'GET',
-                url: 'localhost:5000/api/quiz/answers'
-            }
-        };
-        if (result) {
-            res.status(200).json(response);
-        } else {
-            res.status(404).json({
-                message: 'No valid entry found for the provided ID.'
-            });
-        }   
-    })
-    .catch((error) => {
-        console.log(error);
-        res.status(500).json({
-            error: error
-        });
-    });
-});
-
-// Get a specified user
-router.get('/:ansID', (req, res, next) => {
-    const id = req.params.ansID;
-
-    Answer.findById(id)
-    .exec()
-    .then((result) => {
-        if (result) {
-            res.status(200).json({
-                message: `User found.`,
-                answers: {
-                    _id: result._id,
-                    subject: result.subject,
-                    author: result.author,
-                    createdDate: result.createdDate
-                },
-                request: {
-                    type: 'GET',
-                    url: 'localhost:5000/api/quiz/answers'+result._id
-                }
-            });
-        } else {
-            res.status(404).json({
-                message: 'No valid entry found for the provided ID.'
-            });
-        }
-    })
-    .catch((error) => {
-        console.log(error);
-        res.status(500).json({ 
-            message: `Couldn't found a user with the given information.`,
-            request: {
-                type: 'GET',
-                url: 'localhost:5000/api/users/'+req.body._id
-            },
-            error: error
-        });
-    });
-
-});
-
-// Add a new user
-router.put('/answers', (req, res, next) => {
-    console.log(req);    
-    const answer = new Answer({
+// Add a new Quiz
+router.post('/', checkAuth, (req, res, next) => {
+    const quiz = new Quiz({
         _id: new mongoose.Types.ObjectId(),
-        subject: req.body.subject,
-        answer: req.body.answer,
+        topic: req.body.topic,
+        tags: req.body.tags,
+        questionSet: req.body.questionSet,
+        difficulty: req.body.difficulty,
         author: req.body.author,
-        createdDate: new mongoose.NativeDate()
+        createdDate: new Date()
     });
-    
-    answer.save()
+    quiz.save()
     .then((result) => {
         res.status(201).json({
-            message: `Answer created successfully.`,
-            createdAnswer: {
+            message: `Quiz creation successful.`,
+            quiz: {
                 _id: result._id,
-                subject: result.subject,
+                topic: result.topic,
+                tags: result.tags,
+                questionSet: result.questionSet,
+                difficulty: result.difficulty,
                 author: result.author,
                 createdDate: result.createdDate
             },
             request: {
-                type: 'PUT',
-                url: 'localhost:5000/api/quiz/answer'+result._id
+                type: 'POST',
+                url: 'localhost:5000/api/quiz'
             }
         });
     })
     .catch((error) => {
         console.log(error);
         res.status(500).json({
-            error: error
+            message: "Quiz creation failed.",
+            error: error,
+            request: {
+                type: 'POST',
+                url: 'localhost:5000/api/quiz'
+            }
         });
     });
 });
 
 
-// Update specified user
-router.patch('/:userID', (req, res, next) => {
+// Get all quizzes
+router.get('/', checkAuth, (req, res, next) => {
+    Quiz.find({}, '-__v').exec()
+    .then((result) => {
+        console.log(result);
+        res.status(200).json({
+            message: `Quiz retrieve successful.`,
+            quiz: result[0],
+            request: {
+                type: 'GET',
+                url: 'localhost:5000/api/quiz'
+            }
+        });
+    })
+    .catch((error) => {
+        console.log(error);
+        res.status(500).json({
+            message: "Quiz retrieve failed.",
+            error: error,
+            request: {
+                type: 'GET',
+                url: 'localhost:5000/api/quiz'
+            }
+        });
+    });
+});
+
+// Get a specified Quiz
+router.get('/:quizID', checkAuth, (req, res, next) => {
+
+});
+
+
+
+// Update specified Quiz
+router.patch('/:quizID', (req, res, next) => {
     const id = req.params.userID;
-    const updatedUser = {};
+    var updatedQuiz = {};
     for(const ops of req.body){
-        updatedUser[ops.propName] = ops.value;
+        updatedQuiz[ops.propName] = ops.value;
     }
-    User.updateOne({_id: id}, {$set: updatedUser})
+    Quiz.updateOne({_id: id}, {$set: updatedQuiz})
     .exec()
     .then((result) => {
         if(result.nModified === 1){
@@ -148,6 +119,5 @@ router.patch('/:userID', (req, res, next) => {
         res.status(500).json({ error: error });
     });
 });
-
 
 module.exports = router;
