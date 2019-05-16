@@ -1,5 +1,5 @@
 const assert = require('assert');
-const User = require('../database/models/Users');
+const User = require('../api/models/User');
 
 describe('Find records', ()=>{
 
@@ -8,12 +8,15 @@ describe('Find records', ()=>{
             firstName: "Dasun",
             lastName: "Surendra",
             userName: "DSStar",
+            password: "somepassword",
             email: "dasun1996@gmail.com",
             userType: "Student"
         });
 
         user1.save().then(() => {
             done();
+        }).catch(error => {
+            console.log(error);
         });
 
     });
@@ -22,6 +25,9 @@ describe('Find records', ()=>{
         User.findOne({firstName:'Dasun'}).then((result) => {
             assert(result.firstName === 'Dasun');
             done();
+        }).catch((error) => {
+            assert(false);
+            console.log(error);
         });
     });
 });
