@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 
 before((done) => {
     mongoose.connect('mongodb://localhost/mocha_test', {useNewUrlParser: true});
