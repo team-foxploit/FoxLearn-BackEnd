@@ -123,30 +123,41 @@ router.patch('/:quizID', checkAuth, (req, res, next) => {
     }
     Quiz.findByIdAndUpdate( id, updatedQuiz)
     .exec()
-    .then(() => {
-        Quiz.findById(id, '-__v')
-        .exec()
-        .then((result) => {
-            res.status(200).json({
-                message: `Quiz updated successfully.`,
-                quiz: result,
+    .then((quiz) => {
+        if (quiz) {
+            Quiz.findById(id, '-__v')
+            .exec()
+            .then((result) => {
+                res.status(200).json({
+                    message: `Quiz updated successfully.`,
+                    quiz: result,
+                    request: {
+                        type: 'PATCH',
+                        url: 'localhost:5000/api/quiz/'+id
+                    }
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({
+                    message: `Quiz update failed!`,
+                    error: error,
+                    request: {
+                        type: 'PATCH',
+                        url: 'localhost:5000/api/quiz/'+id
+                    }
+                });
+            });
+        } else {
+            res.status(404).json({
+                message: 'Invalid id',
+                hint: "Quiz may be deleted",
                 request: {
                     type: 'PATCH',
                     url: 'localhost:5000/api/quiz/'+id
                 }
             });
-        })
-        .catch((error) => {
-            console.log(error);
-            res.status(500).json({
-                message: `Quiz update failed!`,
-                error: error,
-                request: {
-                    type: 'PATCH',
-                    url: 'localhost:5000/api/quiz/'+id
-                }
-            });
-        })
+        }
     }).catch((error) => {
         console.log(error);
         res.status(500).json({
