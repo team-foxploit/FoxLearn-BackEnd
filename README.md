@@ -52,6 +52,51 @@ Note: The API supports HTTP and HTTPS. Examples here are provided using HTTP.
 ### Results
 
 ### Resource components
+Major resource components supported by the Crossref API are:
+
+- works
+- funders
+- members
+- prefixes
+- types
+- journals
+
+These can be used alone like this
+
+| resource      | description                       |
+|:--------------|:----------------------------------|
+| `/works`      | returns a list of all works (journal articles, conference proceedings, books, components, etc), 20 per page
+| `/funders`    | returns a list of all funders in the [Funder Registry](https://github.com/Crossref/open-funder-registry)
+| `/members` | returns a list of all Crossref members (mostly publishers) |
+| `/types`      | returns a list of valid work types |
+| `/licenses`  | return a list of licenses applied to works in Crossref metadata |
+| `/journals` | return a list of journals in the Crossref database |
+
+
+### Resource components and identifiers
+Resource components can be used in conjunction with identifiers to retrieve the metadata for that identifier.
+
+| resource                    | description                       |
+|:----------------------------|:----------------------------------|
+| `/works/{doi}`              | returns metadata for the specified Crossref DOI. |
+| `/funders/{funder_id}`      | returns metadata for specified funder **and** its suborganizations |
+| `/prefixes/{owner_prefix}` | returns metadata for the DOI owner prefix |
+| `/members/{member_id}` | returns metadata for a Crossref member |
+| `/types/{type_id}` | returns information about a metadata work type |
+| `/journals/{issn}` | returns information about a journal with the given ISSN |
+
+### Combining resource components
+
+The works component can be appended to other resources.
+
+| resource                    | description                       |
+|:----------------------------|:----------------------------------|
+| `/works/{doi}`      | returns information about the specified Crossref `DOI` |
+| `/funders/{funder_id}/works`| returns list of works associated with the specified `funder_id` |
+| `/types/{type_id}/works` | returns list of works of type `type` |
+| `/prefixes/{owner_prefix}/works` | returns list of works associated with specified `owner_prefix` |
+| `/members/{member_id}/works` | returns list of works associated with a Crossref member (deposited by a Crossref member) |
+| `/journals/{issn}/works` | returns a list of works in the given journal |
 
 ### Parameters
 
