@@ -102,7 +102,7 @@ router.get('/:quizID', checkAuth, (req, res, next) => {
     .catch((error) => {
         console.log(error);
         res.status(500).json({
-            message: "Quiz retrieve failed.",
+            message: 'Invalid id',
             error: error,
             request: {
                 type: 'GET',
@@ -115,40 +115,113 @@ router.get('/:quizID', checkAuth, (req, res, next) => {
 
 
 // Update specified Quiz
-router.patch('/:quizID', (req, res, next) => {
-    const id = req.params.userID;
+router.patch('/:quizID', checkAuth, (req, res, next) => {
+    const id = req.params.quizID;
     var updatedQuiz = {};
     for(const ops of req.body){
         updatedQuiz[ops.propName] = ops.value;
     }
-    Quiz.updateOne({_id: id}, {$set: updatedQuiz})
+    Quiz.findByIdAndUpdate( id, updatedQuiz)
     .exec()
-    .then((result) => {
-        if(result.nModified === 1){
-            // Update success
+    .then(() => {
+        Quiz.findById(id, '-__v')
+        .exec()
+        .then((result) => {
             res.status(200).json({
-                message: `User details updated successfully.`,
-                result: result,
+                message: `Quiz updated successfully.`,
+                quiz: result,
                 request: {
                     type: 'PATCH',
-                    url: 'localhost:5000/api/users/'+id
+                    url: 'localhost:5000/api/quiz/'+id
                 }
             });
-        }else{
-            // Update fail
-            res.status(200).json({
-                message: `User update already happened!`,
-                result: result,
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(500).json({
+                message: `Quiz update failed!`,
+                error: error,
                 request: {
                     type: 'PATCH',
-                    url: 'localhost:5000/api/users/'+id
+                    url: 'localhost:5000/api/quiz/'+id
                 }
-            });     
-        }
-    })
-    .catch((error) => {
+            });
+        })
+    }).catch((error) => {
         console.log(error);
-        res.status(500).json({ error: error });
+        res.status(500).json({
+            message: 'Invalid id',
+            error: error,
+            request: {
+                type: 'PATCH',
+                url: 'localhost:5000/api/quiz/'+id
+            }
+        });
+    });
+});
+
+
+// DELETE specified Quiz
+router.delete('/:quizID', checkAuth, (req, res, next) => {
+    const id = req.params.quizID;
+    Quiz.findByIdAndRemove(id)
+    .exec()
+    .then((quiz) => {
+        if(quiz){
+            Quiz.findById(id, '-__v')
+            .exec()
+            .then((result) => {
+                if (result !== null) {
+                    res.status(500).json({
+                        message: `Quiz delete failed!`,
+                        result: result,
+                        request: {
+                            type: 'DELETE',
+                            url: 'localhost:5000/api/quiz/'+id
+                        }
+                    });
+                } else {
+                    res.status(200).json({
+                        message: `Quiz deleted successfully.`,
+                        quiz: quiz,
+                        request: {
+                            type: 'DELETE',
+                            url: 'localhost:5000/api/quiz/'+id
+                        }
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({
+                    message: `Quiz delete failed!`,
+                    error: error,
+                    request: {
+                        type: 'DELETE',
+                        url: 'localhost:5000/api/quiz/'+id
+                    }
+                });
+            })
+        }else{
+            res.status(404).json({
+                message: 'Invalid id',
+                hint: "Quiz may be already deleted",
+                request: {
+                    type: 'DELETE',
+                    url: 'localhost:5000/api/quiz/'+id
+                }
+            });
+        }
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).json({
+            message: 'Invalid id',
+            error: error,
+            request: {
+                type: 'DELETE',
+                url: 'localhost:5000/api/quiz/'+id
+            }
+        });
     });
 });
 

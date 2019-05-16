@@ -15,7 +15,8 @@ const quizRoutes = require('./api/routes/QuizRoutes');
 
 // Connection to the mongodb database
 mongoose.connect("mongodb://heroku_65j68qcv:"+process.env.MONGODB_PW+"@ds161345.mlab.com:61345/heroku_65j68qcv", {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false
   },
   (err, client) => {
     if (err) {
@@ -25,7 +26,7 @@ mongoose.connect("mongodb://heroku_65j68qcv:"+process.env.MONGODB_PW+"@ds161345.
         console.log('connected to mongo!!!');
     }
   });
-
+  
 // Middle-wares
 app.use(morgan('dev'));     // Loggin middle-ware
 app.use(bodyparser.urlencoded({extended: false}));  // Body-parser for url encoded data
