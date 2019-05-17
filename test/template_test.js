@@ -9,7 +9,7 @@ describe('TEMPLATE test', function(){
     });
 
     // Create test
-    it('add two numbers', function(done){
+    it('Add two numbers', function(done){
         assert(2+3 === 5);
         done();
     });

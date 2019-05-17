@@ -1,27 +1,84 @@
-const assert = require('assert');
+const assert = require('chai').assert;
 const User = require('../api/models/User');
+const Quiz = require('../api/models/Quiz');
 
 describe('CREATE records', ()=>{
-
-    it('Saves a record to the db', function(done){
+    
+    describe('USER', () => {
+        var user;
+        it('Saves an user record to the db', function(done){
+            
+            user = new User({
+                firstName: "Dasun",
+                lastName: "Surendra",
+                userName: "DSStar",
+                password: "somepassword",
+                email: "dasun1996@gmail.com",
+                userType: "Student"
+            });
+    
+            user.save().then((result) => {
+                assert.equal(result.firstName, 'Dasun');
+                done();
+            });
+    
+        });
+    })
+    
+    describe('QUIZ', () => {
+        var quiz;
+        it('Saves a quiz record to the db', function(done){
         
-        var user1 = new User({
-            firstName: "Dasun",
-            lastName: "Surendra",
-            userName: "DSStar",
-            password: "somepassword",
-            email: "dasun1996@gmail.com",
-            userType: "Student"
+            quiz = new Quiz({
+                topic: "Web development",
+                tags: [
+                    "HTML",
+                    "CSS",
+                    "JavaScript"
+                ],
+                questionSet: [
+                        {
+                            "question": "What is the question1?",
+                            "answers": [
+                                "Answer 1",
+                                "Answer 3",
+                                "Answer 2",
+                                "Answer 4"
+                            ],
+                            "correctAnswer": 2
+                        },
+                        {
+                            "question": "What is the question1?",
+                            "answers": [
+                                "Answer 1",
+                                "Answer 3",
+                                "Answer 2",
+                                "Answer 4"
+                            ],
+                            "correctAnswer": 2
+                        },
+                        {
+                            "question": "What is the question1?",
+                            "answers": [
+                                "Answer 1",
+                                "Answer 3",
+                                "Answer 2",
+                                "Answer 4"
+                            ],
+                            "correctAnswer": 2
+                        }
+                ],
+                difficulty: "Medium",
+                author: "Luke",
+                createdDate: new Date(),
+            });
+
+            quiz.save().then((result) => {
+                assert.equal(result.topic, 'Web development');
+                done();
+            });
+    
         });
-
-        user1.save().then((result) => {
-            assert(result.firstName === "Dasun");
-            done();
-        }).catch((error) => {
-            assert(false);
-            console.log(error);
-        });
-
-    });
-
+    })
+    
 });

@@ -18,6 +18,13 @@ before((done) => {
 // Called hooks which runs before something.
 beforeEach((done) => {
     mongoose.connection.collections.users.drop(() => {
+        // console.log("Db deleted [users]");
+        done();
+    });
+});
+beforeEach((done) => {
+    mongoose.connection.collections.quizzes.drop(() => {
+        // console.log("Db deleted [quizzes]");
         done();
     });
 });
