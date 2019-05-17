@@ -246,7 +246,7 @@ router.post("/signup", (req, res, next) => {
 
 
 // Delete specific user
-router.delete('/users/:userID', (req, res, next) => {
+router.delete('/:userID', (req, res, next) => {
     const id = req.params.userID;
     User.deleteOne({_id: id})
     .exec()
